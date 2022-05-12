@@ -7,8 +7,12 @@ export class LoginService {
 
   constructor() { }
 
-  login() {
-    console.log('entered');
-    return 'success';
+  // login() {
+  //   console.log('entered');
+  //   return 'success';
+  // }
+
+  getValue() {
+    return 'hi'
   }
 }

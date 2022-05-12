@@ -140,33 +140,45 @@ describe('Login Component Shallow Test', () => {
 });
 
 
+describe('Login Component Integrated Test', () => {
+  let fixture: ComponentFixture<LoginComponent>;
+  const mockedLoginService = jasmine.createSpyObj('LoginService', ['login']);
 
-// describe('Login Component Integrated Test', () => {
-//   let fixture: ComponentFixture<LoginComponent>;
-//   const loginSpyService = jasmine.createSpyObj('LoginService', ['login']);
+  beforeEach((() => {
+    TestBed.configureTestingModule({
+      declarations: [LoginComponent],
+      imports: [ReactiveFormsModule, MaterialModule, BrowserAnimationsModule],
+      providers: [
+        {
+          provide: LoginService,
+          useValue: mockedLoginService
+        }
+      ]
+    }).compileComponents();
+    fixture = TestBed.createComponent(LoginComponent);     
 
-//   beforeEach((() => {
-//     TestBed.configureTestingModule({
-//       declarations: [LoginComponent],
-//       imports: [ReactiveFormsModule, MaterialModule, BrowserAnimationsModule],
-//       providers: [
-//         {
-//           provide: LoginService,
-//           useValue: loginSpyService
-//         }
-//       ]
-//     }).compileComponents();
-//     fixture = TestBed.createComponent(LoginComponent);  
-//   }));
+  }));
 
 
-//   it('LoginService login() should called', fakeAsync(() => {
+  it('LoginService login() should called', () => {
 
-//     loginSpyService.login.and.returnValue(of('success'));
+    mockedLoginService.login.and.returnValue('success');
+    
+    expect(mockedLoginService.login.calls.any()).toBe(true);
+  });
 
-//     tick(1000)
+  it('LoginService login() should return success', () => {
 
-//     expect(loginSpyService.login).toHaveBeenCalled();
-//   }));
+    mockedLoginService.login.and.returnValue('login success');
 
-// });
+    expect(mockedLoginService.login()).toBe('login success');
+  });
+
+  it('LoginService login() should return failure', fakeAsync(() => {
+
+    mockedLoginService.login.and.returnValue(new Error('test failure'));
+    
+    expect(mockedLoginService.login()).toMatch('test failure');
+  }));
+
+});

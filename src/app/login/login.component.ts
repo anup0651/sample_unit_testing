@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit {
   submit() {
     this.error = '';
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
       if(this.loginForm.value.username == '' && this.loginForm.value.password == ''){
         this.error = 'username and password are empty';
       } else if (this.loginForm.value.username == '') {
@@ -32,7 +31,6 @@ export class LoginComponent implements OnInit {
       } else if (this.loginForm.value.password == '') {
         this.error = 'password is empty';
       } else {
-        this.loginService.login();
         this.successMsg = 'Login successfullly';
       }
 

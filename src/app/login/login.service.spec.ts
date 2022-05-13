@@ -4,19 +4,22 @@ import { of } from 'rxjs';
 import { LoginService } from './login.service';
 
 describe('LoginService', () => {
-  const mockedLoginService = jasmine.createSpyObj('LoginService', ['getValue']);
+  const mockedLoginService = jasmine.createSpyObj('LoginService', ['login']);
   const loginService = new LoginService()
 
   it('login() should called', () => {
     const stubValue = 'stub value';
-    mockedLoginService.getValue.and.returnValue(stubValue);
+    mockedLoginService.login.and.returnValue(stubValue);
 
     // expect(valueServiceSpy.getValue.calls.count()).withContext('spy method was called once').toBe(1);
-    expect(loginService.getValue()).toBe('hi');
 
-    expect(mockedLoginService.getValue.called).toBe(undefined);
+    console.log(loginService.login('system', 'admin'));
+    
+    expect(loginService.login('system', 'admin')).toBe('success');
 
-    expect(mockedLoginService.getValue()).toBe(stubValue);
+    expect(mockedLoginService.login.called).toBe(undefined);
+
+    expect(mockedLoginService.login()).toBe(stubValue);
   });
 
 });

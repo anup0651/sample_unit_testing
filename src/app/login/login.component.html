@@ -18,6 +18,10 @@
     {{ error }}
   </div>
 
+  <div *ngIf="loginResponse" id="login-response">
+    {{ loginResponse }}
+  </div>
+
   <div id="login-btn-container" class="button">
     <button type="submit" color="primary" mat-button>Submit</button>
   </div>

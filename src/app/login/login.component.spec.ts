@@ -9,8 +9,13 @@ import { LoginService } from './login.service';
 
 
 const validUser = {
-  username: 'anup0651',
+  username: 'system',
   password: 'admin'
+}
+
+const inValidUser = {
+  username: 'system',
+  password: 'admin1'
 }
 
 const blankUser = {
@@ -141,44 +146,61 @@ describe('Login Component Shallow Test', () => {
 
 
 describe('Login Component Integrated Test', () => {
-  let fixture: ComponentFixture<LoginComponent>;
-  const mockedLoginService = jasmine.createSpyObj('LoginService', ['login']);
 
-  beforeEach((() => {
+  let fixture: ComponentFixture<LoginComponent>;
+
+  function updateForm(username: string, password: string) {
+    fixture.componentInstance.loginForm.controls['username'].setValue(username);
+    fixture.componentInstance.loginForm.controls['password'].setValue(password);
+  }
+
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [LoginComponent],
-      imports: [ReactiveFormsModule, MaterialModule, BrowserAnimationsModule],
-      providers: [
-        {
-          provide: LoginService,
-          useValue: mockedLoginService
-        }
-      ]
+      imports: [ReactiveFormsModule, MaterialModule, BrowserAnimationsModule]
     }).compileComponents();
-    fixture = TestBed.createComponent(LoginComponent);     
-
+    fixture = TestBed.createComponent(LoginComponent);
   }));
 
-
-  it('LoginService login() should called', () => {
-
-    mockedLoginService.login.and.returnValue('success');
-    
-    expect(mockedLoginService.login.calls.any()).toBe(true);
+  it('created a form with username and password input and login button', () => {
+    // const fixture = TestBed.createComponent(LoginComponent);
+    const usernameContainer = fixture.debugElement.nativeElement.querySelector('#username-container');
+    const passwordContainer = fixture.debugElement.nativeElement.querySelector('#password-container');
+    const loginBtnContainer = fixture.debugElement.nativeElement.querySelector('#login-btn-container');
+    expect(usernameContainer).toBeDefined();
+    expect(passwordContainer).toBeDefined();
+    expect(loginBtnContainer).toBeDefined();
   });
 
-  it('LoginService login() should return success', () => {
 
-    mockedLoginService.login.and.returnValue('login success');
+  it('LoginService login() should success', () => {
 
-    expect(mockedLoginService.login()).toBe('login success');
+    updateForm(validUser.username, validUser.password);
+    fixture.detectChanges();
+
+    const button = fixture.debugElement.nativeElement.querySelector('button');
+    button.click();
+    fixture.detectChanges();
+
+    const loginResponse = fixture.debugElement.nativeElement.querySelector('#login-response');    
+    expect(loginResponse).toBeDefined();
+    
+    expect(loginResponse.innerHTML).toContain('login success');
   });
 
-  it('LoginService login() should return failure', fakeAsync(() => {
+  it('LoginService login() should success', () => {
 
-    mockedLoginService.login.and.returnValue(new Error('test failure'));
+    updateForm(inValidUser.username, inValidUser.password);
+    fixture.detectChanges();
+
+    const button = fixture.debugElement.nativeElement.querySelector('button');
+    button.click();
+    fixture.detectChanges();
+
+    const loginResponse = fixture.debugElement.nativeElement.querySelector('#login-response');    
+    expect(loginResponse).toBeDefined();
     
-    expect(mockedLoginService.login()).toMatch('test failure');
-  }));
+    expect(loginResponse.innerHTML).toContain('login failure');
+  });
 
 });

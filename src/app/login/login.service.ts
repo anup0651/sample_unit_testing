@@ -7,12 +7,12 @@ export class LoginService {
 
   constructor() { }
 
-  // login() {
-  //   console.log('entered');
-  //   return 'success';
-  // }
+  login(username: string, password: string) {
 
-  getValue() {
-    return 'hi'
+    if (username === 'system' && password === 'admin') {
+      return 'login success';
+    } else {
+      return new Error('login failure');
+    }
   }
 }

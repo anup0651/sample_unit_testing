@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
     username: new FormControl(''),
     password: new FormControl(''),
   });
+  loginResponse: string | Error = 'test';
 
   constructor(private loginService: LoginService) { }
 
@@ -24,16 +25,16 @@ export class LoginComponent implements OnInit {
   submit() {
     this.error = '';
     if (this.loginForm.valid) {
-      if(this.loginForm.value.username == '' && this.loginForm.value.password == ''){
+      if(this.loginForm.value.username == '' && this.loginForm.value.password == '') {
         this.error = 'username and password are empty';
       } else if (this.loginForm.value.username == '') {
         this.error = 'username is empty';
       } else if (this.loginForm.value.password == '') {
         this.error = 'password is empty';
       } else {
+        this.loginResponse = this.loginService.login(this.loginForm.value.username, this.loginForm.value.password);
         this.successMsg = 'Login successfullly';
       }
-
       
     }
   }

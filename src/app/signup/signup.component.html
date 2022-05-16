@@ -25,9 +25,24 @@
 
   <div id="mobile-container">
     
-    <mat-form-field >
+    <!-- <mat-form-field >
       <input type="text" id="mobile-text" matInput placeholder="Mobile" formControlName="mobile" [ngClass]="{ 'is-invalid': submitted && mobile?.errors?.['required'] }" >
-    </mat-form-field>
+    </mat-form-field> -->
+    <button (click)="addMobile()">Add</button>
+    <div *ngFor="let mobile of mobilesList.controls;let i=index;" formArrayName="mobiles">
+        <div [formGroupName]="i">
+            <div>
+                <mat-form-field class="width-100p">
+                    <input matInput placeholder="Mobile" formControlName="number">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div>
+          <button (click)="removeOrClearEmail(i)">Remove</button>
+        </div>
+    </div>
+    
   </div>
 
   <div id="role-container">
@@ -49,8 +64,8 @@
     {{ successMsg }}
   </div>
 
-  <div id="login-btn-container" class="button">
-    <button type="submit" color="primary" mat-button>Submit</button>
+  <div class="button">
+    <button id="login-btn-container" type="submit" color="primary" mat-button>Submit</button>
   </div>
 
 </form>

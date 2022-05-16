@@ -15,7 +15,7 @@ describe('LoginService', () => {
 
     console.log(loginService.login('system', 'admin'));
     
-    expect(loginService.login('system', 'admin')).toBe('success');
+    expect(loginService.login('system', 'admin')).toBe('login success');
 
     expect(mockedLoginService.login.called).toBe(undefined);
 

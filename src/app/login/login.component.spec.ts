@@ -54,14 +54,14 @@ describe('Login Component Isolated Test', () => {
     expect(component.error).toBe('');
     expect(component.title).toBeDefined();
     expect(component.title).toBe('Login');
-    expect(component.loginForm.invalid).toBeFalse();
+    expect(component.loginForm.invalid).toBeTruthy();
   });
 
-  it('When submit with blank data - Error', () => {
+  it('When submit with blank data', () => {
     updateForm(blankUser.username, blankUser.password);
     component.submit();
     expect(component.error).toBe('username and password are empty')
-    expect(component.loginForm.invalid).toBeFalsy();
+    expect(component.loginForm.invalid).toBeTruthy();
   });
 
   it('Form value should update with valid mock data - success', (() => {
@@ -140,6 +140,32 @@ describe('Login Component Shallow Test', () => {
 
     expect(errMsg).toBeDefined();
     expect(errMsg.innerHTML).toContain('username and password are empty');
+  });
+
+  it('When username is blank, username field should display red outline ', () => {
+    updateForm(blankUser.username, validUser.password);
+    fixture.detectChanges();
+    const button = fixture.debugElement.nativeElement.querySelector('button');
+    button.click();
+    fixture.detectChanges();
+
+    const usernameInput = fixture.debugElement.nativeElement.querySelector('#username-text');
+    // const usernameInput = inputs[0];
+
+    expect(usernameInput.classList).toContain('is-invalid');
+  });
+
+  it('When password is blank, password field should display red outline ', () => {
+    updateForm(validUser.username, blankUser.password);
+    fixture.detectChanges();
+    const button = fixture.debugElement.nativeElement.querySelector('button');
+    button.click();
+    fixture.detectChanges();
+
+    const inputs = fixture.debugElement.nativeElement.querySelectorAll('input');
+    const passwordInput = inputs[1];
+
+    expect(passwordInput.classList).toContain('is-invalid');
   });
 
 });

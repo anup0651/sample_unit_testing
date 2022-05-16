@@ -1,0 +1,58 @@
+<mat-card>
+    <mat-card-title>{{title}}</mat-card-title>
+<mat-card-content>
+<form [formGroup]="signupForm" (ngSubmit)="submit()">
+  <div id="firstName-container">
+    
+    <mat-form-field >
+      <input type="text" id="firstName-text" matInput placeholder="First Name" formControlName="firstName" [ngClass]="{ 'is-invalid': submitted && firstName?.errors?.['required'] }" >
+    </mat-form-field>
+  </div>
+
+  <div id="lastName-container">
+    
+    <mat-form-field >
+      <input type="text" id="lastName-text" matInput placeholder="Last Name" formControlName="lastName" [ngClass]="{ 'is-invalid': submitted && lastName?.errors?.['required'] }" >
+    </mat-form-field>
+  </div>
+
+  <div id="email-container">
+    
+    <mat-form-field >
+      <input type="text" id="email-text" matInput placeholder="Email" formControlName="email" [ngClass]="{ 'is-invalid': submitted && email?.errors?.['required'] }" >
+    </mat-form-field>
+  </div>
+
+  <div id="mobile-container">
+    
+    <mat-form-field >
+      <input type="text" id="mobile-text" matInput placeholder="Mobile" formControlName="mobile" [ngClass]="{ 'is-invalid': submitted && mobile?.errors?.['required'] }" >
+    </mat-form-field>
+  </div>
+
+  <div id="role-container">
+    <mat-form-field appearance="fill">
+        <mat-label>Role</mat-label>
+        <mat-select id="role-text" laceholder="role" formControlName="role" [ngClass]="{ 'is-invalid': submitted && role?.errors?.['required'] }">
+          <mat-option *ngFor="let role of roleList" [value]="role.value">
+            {{role.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  </div>
+
+  <div *ngIf="error" class="error" id="error-msg">
+    {{ error }}
+  </div>
+
+  <div *ngIf="successMsg" id="successMsg">
+    {{ successMsg }}
+  </div>
+
+  <div id="login-btn-container" class="button">
+    <button type="submit" color="primary" mat-button>Submit</button>
+  </div>
+
+</form>
+</mat-card-content>
+</mat-card>
